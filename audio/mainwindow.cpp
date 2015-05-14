@@ -22,12 +22,12 @@ void MainWindow::startAudioCall()
     myAudioPlayer = new audioPlayer();
 
     QAudioFormat format;
-    format.setSampleRate(128000);
+    format.setSampleRate(8000);
     format.setChannelCount(1);
     format.setSampleSize(16);
     format.setCodec("audio/pcm");
     format.setByteOrder(QAudioFormat::LittleEndian);
-    format.setSampleType(QAudioFormat::UnSignedInt);
+    format.setSampleType(QAudioFormat::SignedInt);
 
     //If format isn't supported find the nearest supported
     QAudioDeviceInfo info(QAudioDeviceInfo::defaultInputDevice());

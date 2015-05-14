@@ -5,7 +5,7 @@ audioPlayer::audioPlayer(QObject *parent) : QObject(parent)
     socket = new QUdpSocket();
     socket->bind(1002);
     QAudioFormat format;
-    format.setSampleRate(128000);
+    format.setSampleRate(8000);
     format.setChannelCount(1);
     format.setSampleSize(16);
     format.setCodec("audio/pcm");
