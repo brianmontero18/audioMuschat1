@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "audiocall/audioplayer.h"
 
 namespace Ui {
 class MainWindow;
@@ -17,6 +18,14 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    QAudioInput* input;
+    QUdpSocket* socket;
+    audioPlayer* myAudioPlayer;
+    bool OnLive;
+
+private slots:
+    void startAudioCall();
+    void endAudioCall();
 };
 
 #endif // MAINWINDOW_H

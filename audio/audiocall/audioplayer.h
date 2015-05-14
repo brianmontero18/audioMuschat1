@@ -1,5 +1,5 @@
-#ifndef UDPPLAYER_H
-#define UDPPLAYER_H
+#ifndef AUDIOPLAYER_H
+#define AUDIOPLAYER_H
 
 
 #include <QObject>
@@ -8,18 +8,22 @@
 #include <QtMultimedia/QAudioFormat>
 #include <QUdpSocket>
 
-class UDPPlayer : public QObject
+class audioPlayer : public QObject
 {
     Q_OBJECT
 public:
-    explicit UDPPlayer(QObject *parent = 0);
+    explicit audioPlayer(QObject *parent = 0);
+    void closeAudioOutput();
 
 private slots:
     void playData();
 
+public slots:
+    void onAudioCall();
+
 private:
-    QAudioOutput *output;
     QUdpSocket *socket;
     QIODevice *device;
+    QAudioOutput *output;
 };
-#endif // UDPPLAYER_H
+#endif // AUDIOPLAYER_H

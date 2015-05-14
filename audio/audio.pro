@@ -16,9 +16,10 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    udpplayer.cpp
+    audiocall/audioplayer.cpp \
+    audiocall/caller.cpp
 
 HEADERS  += mainwindow.h \
-    udpplayer.h
+    audiocall/audioplayer.h
 
 FORMS    += mainwindow.ui

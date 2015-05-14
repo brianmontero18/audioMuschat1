@@ -1,6 +1,6 @@
-#include "udpplayer.h"
+#include "audioplayer.h"
 
-UDPPlayer::UDPPlayer(QObject *parent) : QObject(parent)
+audioPlayer::audioPlayer(QObject *parent) : QObject(parent)
 {
     socket = new QUdpSocket();
     socket->bind(1002);
@@ -21,7 +21,7 @@ UDPPlayer::UDPPlayer(QObject *parent) : QObject(parent)
     connect(socket, SIGNAL(readyRead()), this, SLOT(playData()));
 }
 
-void UDPPlayer::playData()
+void audioPlayer::playData()
 {
     //You need to read datagrams from the udp socket
     while (socket->hasPendingDatagrams())
@@ -31,4 +31,11 @@ void UDPPlayer::playData()
         socket->readDatagram(data.data(), data.size());
         device->write(data.data(), data.size());
     }
+}
+
+void audioPlayer::closeAudioOutput()
+{
+    delete socket;
+    delete output;
+    delete device;
 }
