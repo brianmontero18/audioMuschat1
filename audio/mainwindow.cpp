@@ -19,15 +19,18 @@ MainWindow::~MainWindow()
 
 void MainWindow::startAudioCall()
 {
-    myAudioPlayer = new audioPlayer();
+    socket = new QUdpSocket();
+    socket->connectToHost(ui->IpEdit->text(), 42069);
+
+    myAudioPlayer = new audioPlayer(socket);
 
     QAudioFormat format;
     format.setSampleRate(8000);
     format.setChannelCount(1);
-    format.setSampleSize(16);
+    format.setSampleSize(8);
     format.setCodec("audio/pcm");
     format.setByteOrder(QAudioFormat::LittleEndian);
-    format.setSampleType(QAudioFormat::SignedInt);
+    format.setSampleType(QAudioFormat::UnSignedInt);
 
     //If format isn't supported find the nearest supported
     QAudioDeviceInfo info(QAudioDeviceInfo::defaultInputDevice());
@@ -35,8 +38,6 @@ void MainWindow::startAudioCall()
         format = info.nearestFormat(format);
 
     input = new QAudioInput(format);
-    socket = new QUdpSocket();
-    socket->connectToHost(ui->IpEdit->text(), 1002);
     input->start(socket);
     OnLive = true;
 }
@@ -46,7 +47,6 @@ void MainWindow::endAudioCall()
     if(OnLive) {
         delete input;
         delete socket;
-        myAudioPlayer->closeAudioOutput();
         delete myAudioPlayer;
         OnLive = false;
     }

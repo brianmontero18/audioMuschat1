@@ -7,19 +7,20 @@
 #include <QtMultimedia/QAudioInput>
 #include <QtMultimedia/QAudioFormat>
 #include <QUdpSocket>
+#include <QAbstractSocket>
 
 class audioPlayer : public QObject
 {
     Q_OBJECT
 public:
-    explicit audioPlayer(QObject *parent = 0);
-    void closeAudioOutput();
+    audioPlayer(QUdpSocket* senderSocket);
+    ~audioPlayer();
 
-private slots:
-    void playData();
+signals:
+    void Fruta();
 
 public slots:
-    void onAudioCall();
+    void playData();
 
 private:
     QUdpSocket *socket;

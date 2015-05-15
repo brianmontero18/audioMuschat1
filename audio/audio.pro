@@ -11,13 +11,14 @@ QT += multimedia
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = audio
-TEMPLATE = app
 
+CONFIG   -= app_bundle
+
+TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    audiocall/audioplayer.cpp \
-    audiocall/caller.cpp
+    audiocall/audioplayer.cpp
 
 HEADERS  += mainwindow.h \
     audiocall/audioplayer.h

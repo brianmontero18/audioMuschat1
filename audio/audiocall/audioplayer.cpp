@@ -1,24 +1,31 @@
 #include "audioplayer.h"
 
-audioPlayer::audioPlayer(QObject *parent) : QObject(parent)
+audioPlayer::audioPlayer(QUdpSocket* senderSocket)
 {
     socket = new QUdpSocket();
-    socket->bind(1002);
+    socket->bind(42069);
     QAudioFormat format;
     format.setSampleRate(8000);
     format.setChannelCount(1);
     format.setSampleSize(16);
     format.setCodec("audio/pcm");
     format.setByteOrder(QAudioFormat::LittleEndian);
-    format.setSampleType(QAudioFormat::UnSignedInt);
+    format.setSampleType(QAudioFormat::SignedInt);
 
     QAudioDeviceInfo info(QAudioDeviceInfo::defaultOutputDevice());
-    if (!info.isFormatSupported(format))
+    if (!info.isFormatSupported(format)) {
+        qDebug() << "Default format not supported - trying to use nearest";
         format = info.nearestFormat(format);
+    }
 
     output = new QAudioOutput(format);
     device = output->start();
     connect(socket, SIGNAL(readyRead()), this, SLOT(playData()));
+
+    if (socket->state() == QUdpSocket::ConnectedState)
+        qDebug() << "Connected";
+    else
+        qDebug() << "Not Connected";
 }
 
 void audioPlayer::playData()
@@ -33,7 +40,7 @@ void audioPlayer::playData()
     }
 }
 
-void audioPlayer::closeAudioOutput()
+audioPlayer::~audioPlayer()
 {
     delete socket;
     delete output;
